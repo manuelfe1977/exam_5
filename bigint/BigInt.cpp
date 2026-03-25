@@ -39,11 +39,43 @@ BigInt &BigInt::operator=(const BigInt &num)
 	return *this;
 }
 
-BigInt::operator+(const BigInt &num) const
+BigInt ft_addition(const BigInt& a, const BigInt& b)
 {
 	BigInt	result;
 	int	carry = 0;
-	int	max_len = max(this->_digits.size(), num._digits.size());
+	int	max_len = max(a._digits.size(), b._digits.size());
+	int	i = 0;
+	int	a = 0;
+	int	b = 0;
+	int	sum = 0;
+a.
+	while (i < max_len)
+	{
+		if (i < this->_digits.size())
+			a = this->_digits[i];
+		else
+			a = 0;
+		if (i < num._digits.size())
+			b = num._digits[i];
+		else
+			b = 0;
+		sum = a + b + carry;
+		carry = sum / 10;
+		result._digits.push_back(sum % 10);
+		i++;
+	}
+	if (carry > 0)
+		result._digits.push_back(carry);
+}
+
+BigInt BigInt::operator+(const BigInt &num) const
+{
+
+
+	if (this->_is_negative && num._is_negative)
+
+
+
 }
 
 
@@ -59,6 +91,6 @@ std::ostream& operator<<(std::ostream& os, const BigInt& obj)
 
 	return os;
 }
-                
+
 
 

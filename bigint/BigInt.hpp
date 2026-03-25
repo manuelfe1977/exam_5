@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <math.h>
 
 class BigInt
 {
@@ -26,10 +27,13 @@ class BigInt
 		bool operator>=(const BigInt &num);
 		bool operator<=(const BigInt &num);
 		bool operator==(const BigInt &num);
-		bool operator!=(const BigInt &num);		
+		bool operator!=(const BigInt &num);
 		~BigInt();
 
 		friend std::ostream& operator<<(std::ostream& os, const BigInt& obj);
+		friend BigInt ft_addition(const BigInt& a, const BigInt& b);
 };
+
+
 
 #endif
