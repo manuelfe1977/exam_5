@@ -45,36 +45,48 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 	int	carry = 0;
 	int	max_len = max(a._digits.size(), b._digits.size());
 	int	i = 0;
-	int	a = 0;
-	int	b = 0;
-	int	sum = 0;
-a.
+	int	sum1 = 0;
+	int	sum2 = 0;
+	int	res = 0;
+
 	while (i < max_len)
 	{
-		if (i < this->_digits.size())
-			a = this->_digits[i];
+		if (i < a._digits.size())
+			sum1 = a._digits[i];
 		else
-			a = 0;
-		if (i < num._digits.size())
-			b = num._digits[i];
+			sum1 = 0;
+		if (i < b._digits.size())
+			sum2 = b._digits[i];
 		else
-			b = 0;
-		sum = a + b + carry;
-		carry = sum / 10;
-		result._digits.push_back(sum % 10);
+			sum2 = 0;
+		res = sum1 + sum2 + carry;
+		carry = res / 10;
+		result._digits.push_back(res % 10);
 		i++;
 	}
 	if (carry > 0)
 		result._digits.push_back(carry);
+	return result;
 }
 
 BigInt BigInt::operator+(const BigInt &num) const
 {
-
+	BigInt	result;
 
 	if (this->_is_negative && num._is_negative)
-
-
+	{
+		result = ft_addition(*this, num);
+		result._is_negative = true;
+	}
+	if (!this->_is_negative && !num._is_negative)
+	{
+		result = ft_addition(*this, num);
+		result._is_negative = false;
+	}
+	if (this->_is_negative != num._is_negative)
+	{
+		/* code */
+	}
 
 }
 
