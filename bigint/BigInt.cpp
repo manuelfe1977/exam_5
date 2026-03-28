@@ -69,6 +69,28 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 	return result;
 }
 
+BigInt ft_substraction(const BigInt& a, const BigInt& b)
+{
+	BigInt	result;
+	BigInt	copy_a;
+	BigInt	copy_b;
+	BigInt	swap;
+
+	swap = a;
+	copy_a = a;
+	copy_b = b;
+	if (&a >= &b)
+		result._is_negative = false;
+	else
+	{
+		result._is_negative = true;
+		swap = copy_a;
+		copy_a = copy_b;
+		copy_b = swap;
+	}
+
+}
+
 BigInt BigInt::operator+(const BigInt &num) const
 {
 	BigInt	result;
@@ -85,11 +107,77 @@ BigInt BigInt::operator+(const BigInt &num) const
 	}
 	if (this->_is_negative != num._is_negative)
 	{
-		/* code */
+		if (this > &num)
+			result = this - &num;
+		else
+			result = &num - this;
 	}
-
+	return result;
 }
 
+BigInt BigInt::operator-(const BigInt &num) const
+{
+	BigInt	result;
+	BigInt	copy_num;
+
+	if (!this->_is_negative && !num._is_negative)
+		result = ft_substraction(*this, num);
+	if (!this->_is_negative && num._is_negative)
+	{
+		copy_num = BigInt(num);
+		result = *this + copy_num;
+	}
+	if (this->_is_negative && !num._is_negative)
+	{
+		copy_num = BigInt(*this);
+		copy_num._is_negative = false;
+		result = copy_num + num;
+		result._is_negative = true;
+	}
+	if (this->_is_negative && num._is_negative)
+		result = num - *this;
+	return result;
+}
+
+bool ft_comparation(std::vector<int> a, std::vector<int> b)
+{
+	bool	res = false;
+	int		i = 0;
+
+	if (a.size() > b.size())
+		res = true;
+	else if (a.size() < b.size())
+		res = false;
+	else
+	{
+		while (i >= a.size() - 1)
+		{
+			if (a[i] > b[i])
+			{
+				res = true;
+				break;
+			}
+			else if (a[i] < b[i])
+			{
+				res = false;
+				break;
+			}
+			i++;
+		}
+	}
+	return res;
+}
+
+bool BigInt::operator>(const BigInt &num)
+{
+	bool	res = false;
+
+	if ((this->_is_negative && num._is_negative) || (!this->_is_negative && !num._is_negative))
+		res = ft_comparation(this->_digits, num._digits);
+	else if (!this->_is_negative && num._is_negative)
+		res = true;
+	return res;
+}
 
 BigInt::~BigInt(){}
 

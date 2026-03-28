@@ -16,6 +16,7 @@ class BigInt
 		BigInt(const BigInt &num);
 		BigInt &operator=(const BigInt &num);
 		BigInt operator+(const BigInt &num) const;
+		BigInt operator-(const BigInt &num) const;
 		BigInt operator+=(const BigInt &num);
 		BigInt operator++(int num);
 		BigInt operator++();
@@ -32,6 +33,7 @@ class BigInt
 
 		friend std::ostream& operator<<(std::ostream& os, const BigInt& obj);
 		friend BigInt ft_addition(const BigInt& a, const BigInt& b);
+		friend BigInt ft_substraction(const BigInt& a, const BigInt& b);
 };
 
 
