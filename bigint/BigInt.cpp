@@ -43,7 +43,7 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 {
 	BigInt	result;
 	int	carry = 0;
-	int	max_len = std::max(a._digits.size(), b._digits.size());
+	int	max_len = std::max(a.getDigits().size(), b.getDigits().size());
 	int	i = 0;
 	int	sum1 = 0;
 	int	sum2 = 0;
@@ -51,21 +51,21 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 
 	while (i < max_len)
 	{
-		if (i < a._digits.size())
-			sum1 = a._digits[i];
+		if (i < a.getDigits().size())
+			sum1 = a.getDigits()[i];
 		else
 			sum1 = 0;
-		if (i < b._digits.size())
-			sum2 = b._digits[i];
+		if (i < b.getDigits().size())
+			sum2 = b.getDigits()[i];
 		else
 			sum2 = 0;
 		res = sum1 + sum2 + carry;
 		carry = res / 10;
-		result._digits.push_back(res % 10);
+		result.getDigits().push_back(res % 10);
 		i++;
 	}
 	if (carry > 0)
-		result._digits.push_back(carry);
+		result.getDigits().push_back(carry);
 	return result;
 }
 
@@ -80,10 +80,10 @@ BigInt ft_substraction(const BigInt& a, const BigInt& b)
 	copy_a = a;
 	copy_b = b;
 	if (&a >= &b)
-		result._is_negative = false;
+		result.setSign(false);
 	else
 	{
-		result._is_negative = true;
+		result.setSign(true);
 		swap = copy_a;
 		copy_a = copy_b;
 		copy_b = swap;
@@ -139,6 +139,30 @@ BigInt BigInt::operator-(const BigInt &num) const
 	return result;
 }
 
+BigInt &BigInt::operator+=(const BigInt &num)
+{
+	*this = *this + num;
+	return *this;
+}
+
+BigInt &BigInt::operator++()
+{
+    *this = *this + 1;
+    return *this;
+}
+
+BigInt BigInt::operator++(int num)
+{
+	BigInt temp;
+
+	(void)num;
+	temp = *this;
+	*this = *this + 1;
+	return temp;
+}
+
+
+
 bool ft_comparation(std::vector<int> a, std::vector<int> b)
 {
 	bool	res = false;
@@ -178,8 +202,6 @@ bool BigInt::operator>(const BigInt &num)
 		res = true;
 	return res;
 }
-
-BigInt::~BigInt(){}
 
 bool BigInt::operator<=(const BigInt &num)
 {
@@ -249,16 +271,69 @@ bool BigInt::operator!=(const BigInt &num)
 	return !(this == &num);
 }
 
+BigInt	BigInt::operator<<(unsigned int shift) const
+{
+	BigInt copy;
+
+	if (this->_digits.size() == 0 && this->_digits[0] == 0)
+		return BigInt(0);
+	else
+	{
+		copy = *this;
+		copy._digits.insert(copy._digits.begin(), shift, 0);
+		return copy;
+	}
+}
+
+BigInt	BigInt::operator>>(unsigned int shift) const
+{
+	BigInt copy;
+
+	if ((this->_digits.size() == 0 && shift > 0) || shift > this->_digits.size())
+		return BigInt(0);
+	else
+	{
+		copy = *this;
+		copy._digits.erase(copy._digits.begin(),copy._digits.begin() + shift);
+		return copy;
+	}
+}
+
+BigInt	&BigInt::operator<<=(unsigned int shift)
+{
+	BigInt copy;
+
+	if (this->_digits.size() == 0 && this->_digits[0] == 0)
+		return *this;
+	this->_digits.insert(this->_digits.begin(), shift, 0);
+	return *this;
+}
+
+BigInt::~BigInt(){}
+
+
+std::vector<int>	BigInt::getDigits() const
+{
+	return this->_digits;
+}
+
+bool	BigInt::getSign() const
+{
+	return this->_is_negative;
+}
+
+void	BigInt::setSign(bool sign)
+{
+	this->_is_negative = sign;
+}
+
 std::ostream& operator<<(std::ostream& os, const BigInt& obj)
 {
-	if (obj._is_negative && !(obj._digits.size() == 1 && obj._digits[0] == 0))
+	if (obj.getSign() && !(obj.getDigits().size() == 1 && obj.getDigits()[0] == 0))
 		os << '-';
-	for (int i = obj._digits.size() - 1; i >= 0; --i)
-		os << obj._digits[i];
+	for (int i = obj.getDigits().size() - 1; i >= 0; --i)
+		os << obj.getDigits()[i];
 	os << '\n';
 
 	return os;
 }
-
-
-
