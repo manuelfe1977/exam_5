@@ -43,7 +43,7 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 {
 	BigInt	result;
 	int	carry = 0;
-	int	max_len = max(a._digits.size(), b._digits.size());
+	int	max_len = std::max(a._digits.size(), b._digits.size());
 	int	i = 0;
 	int	sum1 = 0;
 	int	sum2 = 0;
@@ -180,6 +180,74 @@ bool BigInt::operator>(const BigInt &num)
 }
 
 BigInt::~BigInt(){}
+
+bool BigInt::operator<=(const BigInt &num)
+{
+	int	i = (int) this->_digits.size() - 1;
+
+	if (this->_is_negative && !num._is_negative)
+		return true;
+	else if (!this->_is_negative && num._is_negative)
+		return false;
+	else
+	{
+		if ((this->_digits.size() > num._digits.size()) && this->_is_negative)
+			return true;
+		else if ((this->_digits.size() > num._digits.size()) && !this->_is_negative)
+			return false;
+		else if ((this->_digits.size() < num._digits.size()) && this->_is_negative)
+			return false;
+		else if ((this->_digits.size() < num._digits.size()) && !this->_is_negative)
+			return true;
+		else if (this->_digits.size() == num._digits.size())
+		{
+			while (i >= 0)
+			{
+				if ((this->_digits[i] > num._digits[i]) && !this->_is_negative)
+					return false;
+				else if ((this->_digits[i] > num._digits[i]) && this->_is_negative)
+					return true;
+				else if ((this->_digits[i] < num._digits[i]) && !this->_is_negative)
+					return true;
+				else if ((this->_digits[i] < num._digits[i]) && this->_is_negative)
+					return false;
+				i--;
+			}
+		}
+		if (i == -1)
+			return true;
+	}
+}
+
+bool BigInt::operator>=(const BigInt &num)
+{
+	return &num <= this;
+}
+
+bool BigInt::operator==(const BigInt &num)
+{
+	int	i = (int) this->_digits.size() - 1;
+
+	if ((this->_is_negative == num._is_negative || !this->_is_negative == !num._is_negative)
+		&& (this->_digits.size() == num._digits.size()))
+	{
+		while (i >= 0)
+		{
+			if (this->_digits[i] != num._digits[i])
+				return false;
+			i--;
+		}
+		if (i == -1)
+			return true;
+	}
+	else
+		return false;
+}
+
+bool BigInt::operator!=(const BigInt &num)
+{
+	return !(this == &num);
+}
 
 std::ostream& operator<<(std::ostream& os, const BigInt& obj)
 {
