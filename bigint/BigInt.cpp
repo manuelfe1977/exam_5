@@ -3,7 +3,7 @@
 BigInt::BigInt()
 {
 	this->_is_negative = false;
-	this->_digits.push_back(0);
+	//this->_digits.push_back(0);
 }
 
 BigInt::BigInt(int n)
@@ -89,6 +89,7 @@ BigInt ft_substraction(const BigInt& a, const BigInt& b)
 		copy_b = swap;
 	}
 
+	return result;
 }
 
 BigInt BigInt::operator+(const BigInt &num) const
@@ -174,7 +175,7 @@ bool ft_comparation(std::vector<int> a, std::vector<int> b)
 		res = false;
 	else
 	{
-		while (i >= a.size() - 1)
+		while (i >= (int)a.size() - 1)
 		{
 			if (a[i] > b[i])
 			{
