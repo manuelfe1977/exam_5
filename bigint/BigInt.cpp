@@ -2,8 +2,8 @@
 
 BigInt::BigInt()
 {
-	this->_is_negative = false;
-	//this->_digits.push_back(0);
+    this->_is_negative = false;
+    this->_digits.push_back(0);
 }
 
 BigInt::BigInt(int n)
@@ -51,11 +51,11 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 
 	while (i < max_len)
 	{
-		if (i < a.getDigits().size())
+		if (i < (int)a.getDigits().size())
 			sum1 = a.getDigits()[i];
 		else
 			sum1 = 0;
-		if (i < b.getDigits().size())
+		if (i < (int)b.getDigits().size())
 			sum2 = b.getDigits()[i];
 		else
 			sum2 = 0;
@@ -108,10 +108,10 @@ BigInt BigInt::operator+(const BigInt &num) const
 	}
 	if (this->_is_negative != num._is_negative)
 	{
-		if (this > &num)
-			result = this - &num;
+		if (*this > num)
+			result = *this - num;
 		else
-			result = &num - this;
+			result = num - *this;
 	}
 	return result;
 }
@@ -164,112 +164,65 @@ BigInt BigInt::operator++(int num)
 
 
 
-bool ft_comparation(std::vector<int> a, std::vector<int> b)
+bool BigInt::operator<(const BigInt &num) const
 {
-	bool	res = false;
-	int		i = 0;
-
-	if (a.size() > b.size())
-		res = true;
-	else if (a.size() < b.size())
-		res = false;
-	else
-	{
-		while (i >= (int)a.size() - 1)
-		{
-			if (a[i] > b[i])
-			{
-				res = true;
-				break;
-			}
-			else if (a[i] < b[i])
-			{
-				res = false;
-				break;
-			}
-			i++;
-		}
-	}
-	return res;
-}
-
-bool BigInt::operator>(const BigInt &num)
-{
-	bool	res = false;
-
-	if ((this->_is_negative && num._is_negative) || (!this->_is_negative && !num._is_negative))
-		res = ft_comparation(this->_digits, num._digits);
-	else if (!this->_is_negative && num._is_negative)
-		res = true;
-	return res;
-}
-
-bool BigInt::operator<=(const BigInt &num)
-{
-	int	i = (int) this->_digits.size() - 1;
-
+	// 1. Comparar signos
 	if (this->_is_negative && !num._is_negative)
 		return true;
-	else if (!this->_is_negative && num._is_negative)
+	if (!this->_is_negative && num._is_negative)
 		return false;
-	else
-	{
-		if ((this->_digits.size() > num._digits.size()) && this->_is_negative)
-			return true;
-		else if ((this->_digits.size() > num._digits.size()) && !this->_is_negative)
-			return false;
-		else if ((this->_digits.size() < num._digits.size()) && this->_is_negative)
-			return false;
-		else if ((this->_digits.size() < num._digits.size()) && !this->_is_negative)
-			return true;
-		else if (this->_digits.size() == num._digits.size())
-		{
-			while (i >= 0)
-			{
-				if ((this->_digits[i] > num._digits[i]) && !this->_is_negative)
-					return false;
-				else if ((this->_digits[i] > num._digits[i]) && this->_is_negative)
-					return true;
-				else if ((this->_digits[i] < num._digits[i]) && !this->_is_negative)
-					return true;
-				else if ((this->_digits[i] < num._digits[i]) && this->_is_negative)
-					return false;
-				i--;
-			}
-		}
-		if (i == -1)
-			return true;
+
+	// Ambos tienen el mismo signo
+	bool both_positive = !this->_is_negative;
+
+	// 2. Comparar magnitudes (número de dígitos)
+	if (this->_digits.size() < num._digits.size())
+		return both_positive; // si son positivos, 'this' es menor. si son negativos, 'this' es mayor.
+	if (this->_digits.size() > num._digits.size())
+		return !both_positive; // si son positivos, 'this' es mayor. si son negativos, 'this' es menor.
+
+	// 3. Mismo signo y número de dígitos. Comparar dígito a dígito desde el más significativo.
+	for (int i = this->_digits.size() - 1; i >= 0; --i) {
+		if (this->_digits[i] < num._digits[i])
+			return both_positive;
+		if (this->_digits[i] > num._digits[i])
+			return !both_positive;
 	}
+
+	// Los números son idénticos.
+	return false;
 }
 
-bool BigInt::operator>=(const BigInt &num)
+bool BigInt::operator==(const BigInt &num) const
 {
-	return &num <= this;
+	// Caso especial para el cero (el signo no importa)
+	bool this_is_zero = (this->_digits.size() == 1 && this->_digits[0] == 0);
+	bool num_is_zero = (num._digits.size() == 1 && num._digits[0] == 0);
+	if (this_is_zero && num_is_zero) return true;
+
+	// Para números no nulos, los signos y los dígitos deben coincidir.
+	// El operador== de std::vector compara tamaño y elementos.
+	return this->_is_negative == num._is_negative && this->_digits == num._digits;
 }
 
-bool BigInt::operator==(const BigInt &num)
+bool BigInt::operator!=(const BigInt &num) const
 {
-	int	i = (int) this->_digits.size() - 1;
-
-	if ((this->_is_negative == num._is_negative || !this->_is_negative == !num._is_negative)
-		&& (this->_digits.size() == num._digits.size()))
-	{
-		while (i >= 0)
-		{
-			if (this->_digits[i] != num._digits[i])
-				return false;
-			i--;
-		}
-		if (i == -1)
-			return true;
-	}
-	else
-		return false;
+	return !(*this == num);
 }
 
-bool BigInt::operator!=(const BigInt &num)
+bool BigInt::operator>(const BigInt &num) const
 {
-	return !(this == &num);
+	return num < *this;
+}
+
+bool BigInt::operator<=(const BigInt &num) const
+{
+	return !(*this > num);
+}
+
+bool BigInt::operator>=(const BigInt &num) const
+{
+	return !(*this < num);
 }
 
 BigInt	BigInt::operator<<(unsigned int shift) const

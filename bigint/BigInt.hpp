@@ -24,12 +24,12 @@ class BigInt
 		BigInt operator>>(unsigned int shift) const;
 		BigInt &operator<<=(unsigned int shift);
 		BigInt &operator>>=(unsigned int shift);
-		bool operator<(const BigInt &num);
-		bool operator>(const BigInt &num);
-		bool operator>=(const BigInt &num);
-		bool operator<=(const BigInt &num);
-		bool operator==(const BigInt &num);
-		bool operator!=(const BigInt &num);
+		bool operator<(const BigInt &num) const;
+		bool operator>(const BigInt &num) const;
+		bool operator>=(const BigInt &num) const;
+		bool operator<=(const BigInt &num) const;
+		bool operator==(const BigInt &num) const;
+		bool operator!=(const BigInt &num) const;
 		~BigInt();
 
 
