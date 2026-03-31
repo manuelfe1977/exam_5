@@ -33,7 +33,8 @@ class BigInt
 		~BigInt();
 
 
-		std::vector<int>	getDigits() const;
+		const std::vector<int>	&getDigits() const;
+		std::vector<int>		&getDigits();
 		bool				getSign() const;
 		void				setSign(bool sign);
 };

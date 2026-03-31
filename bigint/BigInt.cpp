@@ -49,6 +49,7 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 	int	sum2 = 0;
 	int	res = 0;
 
+	result.getDigits().clear();
 	while (i < max_len)
 	{
 		if (i < (int)a.getDigits().size())
@@ -64,8 +65,10 @@ BigInt ft_addition(const BigInt& a, const BigInt& b)
 		result.getDigits().push_back(res % 10);
 		i++;
 	}
+
 	if (carry > 0)
 		result.getDigits().push_back(carry);
+
 	return result;
 }
 
@@ -95,24 +98,24 @@ BigInt ft_substraction(const BigInt& a, const BigInt& b)
 BigInt BigInt::operator+(const BigInt &num) const
 {
 	BigInt	result;
+	BigInt copy_n(num);
+	BigInt copy_t(*this);
 
-	if (this->_is_negative && num._is_negative)
+	copy_n._is_negative = false;
+	copy_t._is_negative = false;
+	if (this->_is_negative == num._is_negative)
 	{
 		result = ft_addition(*this, num);
-		result._is_negative = true;
+		result._is_negative = this->_is_negative;
 	}
-	if (!this->_is_negative && !num._is_negative)
+	else if (!this->_is_negative && num._is_negative)
 	{
-		result = ft_addition(*this, num);
+		result = copy_t - copy_n;
+	}
+	else
+		result = copy_n - copy_t;
+	if (result._digits.size() == 1 && result._digits[0] == 0)
 		result._is_negative = false;
-	}
-	if (this->_is_negative != num._is_negative)
-	{
-		if (*this > num)
-			result = *this - num;
-		else
-			result = num - *this;
-	}
 	return result;
 }
 
@@ -266,7 +269,12 @@ BigInt	&BigInt::operator<<=(unsigned int shift)
 BigInt::~BigInt(){}
 
 
-std::vector<int>	BigInt::getDigits() const
+const std::vector<int>	&BigInt::getDigits() const
+{
+	return this->_digits;
+}
+
+std::vector<int>	&BigInt::getDigits()
 {
 	return this->_digits;
 }
