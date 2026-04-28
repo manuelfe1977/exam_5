@@ -4,6 +4,7 @@
 int	main(void)
 {
 
+<<<<<<< HEAD
 	const BigInt a(42);
     BigInt b(-21), c, d(1337), e(d);
 
@@ -33,5 +34,19 @@ int	main(void)
     std::cout << "(d >= a) = " << (d >= a) << std::endl;
     std::cout << "(d == a) = " << (d == a) << std::endl;
     std::cout << "(d != a) = " << (d != a) << std::endl;
+=======
+	BigInt a;
+	BigInt b = 10;
+	BigInt c(15);
+	BigInt d;
+
+	a = b;
+	d = a + c;
+	std::cout << a << std::endl;
+	std::cout << b << std::endl;
+	std::cout << c << std::endl;
+	std::cout << d << std::endl;
+	std::cout << (c < b) << std::endl;
+>>>>>>> 58a1925 (ultimos cambios)
 	return 0;
 }
