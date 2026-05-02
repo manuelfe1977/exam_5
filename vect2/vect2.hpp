@@ -14,6 +14,12 @@ class vect2
 		vect2 &operator=(const vect2 &v);
 		int operator[](int i) const;
 		int &operator[](int i);
+		vect2 operator*(int i) const;
+		vect2 operator-() const;
+		vect2 operator+(const vect2 &v) const;
+		vect2 operator-(const vect2 &v) const;
+		vect2 operator*(const vect2 &v) const;
+		vect2 operator/(const vect2 &v) const;
 		const int* get_vector() const;
 		~vect2();
 };
