@@ -1,0 +1,26 @@
+Nombre de la tarea: Polyset
+Archivos esperados: searchable_array_bag.cpp, searchable_array_bag.hpp,
+searchable_tree_bg.cpp, searchable_tree_bag.hpp, set.cpp, set.hpp
+
+En este directorio encontrará las siguientes clases:
+- bag: una clase abstracta que representa una bolsa.
+- searchable_bag: una clase abstracta que representa una bolsa con la capacidad de
+buscar en ella.
+
+- array_bag: una implementación de una bolsa con un array como estructura de datos subyacente.
+
+- tree_bag: una implementación de una bolsa con un árbol de búsqueda binaria como estructura de datos subyacente.
+
+
+Si no sabes qué es un conjunto o una bolsa (¡qué lástima!), puedes leer el archivo adjunto:
+shame.en.txt
+
+Primera parte:
+Dado que una bolsa sin función de búsqueda no es muy útil, implementa dos clases:
+searchable_array_bag y searchable_tree_bag, que heredarán de
+array_bag y tree_bag, e implementarán la clase abstracta searchable_bag.
+
+Segunda parte:
+Implementa la clase set que encapsulará una searchable_bag y la convertirá en un conjunto.
+Encontrarás en este directorio un archivo main que debe compilarse con tu código.
+Todas las clases deben estar en forma canónica ortodoxa. No olvides la constante.
