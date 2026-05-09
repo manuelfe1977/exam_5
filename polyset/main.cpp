@@ -1,6 +1,10 @@
 #include "searchable_bag.hpp"
+#include "searchable_array_bag.hpp"
+#include "searchable_tree_bag.hpp"
+#include "set.hpp"
 
 #include <iostream>
+#include <cstdlib>
 
 int main(int argc, char **argv) {
   if (argc == 1)
@@ -24,7 +28,7 @@ int main(int argc, char **argv) {
 
   t->clear();
   a->clear();
-
+  int numeros[] ={1,2,3,4};
   const searchable_array_bag tmp(static_cast<searchable_array_bag &>(*a));
   tmp.print();
   tmp.has(1);
@@ -40,14 +44,7 @@ int main(int argc, char **argv) {
     sa.get_bag().print();
     st.print();
     sa.clear();
-    sa.insert(
-        (int[]){
-            1,
-            2,
-            3,
-            4,
-        },
-        4);
+    sa.insert(numeros,4);
     std::cout << std::endl;
   }
 

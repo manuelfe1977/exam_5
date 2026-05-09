@@ -24,3 +24,4 @@ Segunda parte:
 Implementa la clase set que encapsulará una searchable_bag y la convertirá en un conjunto.
 Encontrarás en este directorio un archivo main que debe compilarse con tu código.
 Todas las clases deben estar en forma canónica ortodoxa. No olvides la constante.
+c++ -Wall -Wextra -Werror -std=c++98  set.cpp array_bag.cpp searchable_array_bag.cpp searchable_tree_bag.cpp tree_bag.cpp  main.cpp -o test_poly

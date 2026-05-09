@@ -2,9 +2,9 @@
 
 searchable_array_bag::searchable_array_bag(){}
 
-searchable_array_bag::searchable_array_bag(const searchable_array_bag &sab)
+searchable_array_bag::searchable_array_bag(const searchable_array_bag &sab):array_bag(sab)
 {
-	array_bag::array_bag(sab);
+
 }
 
 searchable_array_bag &searchable_array_bag::operator=(const searchable_array_bag &sab)
@@ -21,7 +21,7 @@ bool searchable_array_bag::has(int x) const
 {
 	int	i = 0;
 
-	while (i < this->size - 1)
+	while (i < this->size)
 	{
 		if (this->data[i] == x)
 			return true;
@@ -29,5 +29,3 @@ bool searchable_array_bag::has(int x) const
 	}
 	return false;
 }
-
-
