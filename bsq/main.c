@@ -13,10 +13,10 @@ int	main(int argc, char** argv)
 				printf("mapa procesado");
 			printf("\n");
 			i++;
-		}	
+		}
 	}
 	else
-		printf("datos de la entrada standard \n");
-
+		if(execute_bsq(stdin) == -1)
+			fprintf(stderr, "map error\n");
 	return 0;
 }
