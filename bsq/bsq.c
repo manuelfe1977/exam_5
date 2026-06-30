@@ -37,7 +37,7 @@ void	free_map(t_map *map)
 
 char*	ft_substr(char* source, int s, int l)
 {
-	char *str= malloc(sizeof(char) * l +1);
+	char *str= (char*)malloc(sizeof(char) * l +1);
 	if (!str)
 		return NULL;
 	int i = 0;
@@ -69,10 +69,8 @@ int	read_map(FILE* file, t_elements* e, t_map* map)
 		free_map(map);
 		return -1;
 	}
-	printf("aqui\n");
 	for (int i = 0; i < map->h; i++)
 	{
-//		printf("aqui %i\n", i);
 		int read = getline(&line, &l, file);
 		if (read == -1)
 		{
@@ -80,23 +78,20 @@ int	read_map(FILE* file, t_elements* e, t_map* map)
 			free(line);
 			return -1;
 		}
-//                printf("aqui %i\n", i);
-
 		if (line[read-1] == '\n')
 			read--;
 		else
 		{
-                        free_map(map);
-                        free(line);
-                        return -1;
+			free_map(map);
+			free(line);
+			return -1;
 		}
-                printf("aqui %i\n", i);
 		map->grid[i] = ft_substr(line, 0, read);
 		if (!map->grid[i])
 		{
-                        free_map(map);
-                        free(line);
-                        return -1;
+			free_map(map);
+			free(line);
+			return -1;
 		}
 		if (i == 0)
 			map->w = read;
@@ -105,8 +100,8 @@ int	read_map(FILE* file, t_elements* e, t_map* map)
 			if (read != map->w)
 			{
 				free_map(map);
-                        	free(line);
-                        	return -1;
+				free(line);
+				return -1;
 			}
 		}
 		int j = 0;
@@ -114,19 +109,78 @@ int	read_map(FILE* file, t_elements* e, t_map* map)
 		{
 			if (map->grid[i][j] != e->o && map->grid[i][j] != e->e)
 			{
-		                printf("aqui no deberia %i\n", i);
-
 				free_map(map);
-                                free(line);
-                                return -1;
+				free(line);
+				return -1;
 			}
 			j++;
 		}
-	        fputs(line,stdout);
+		fputs(line,stdout);
 	}
 	free (line);
 	return 0;
-}	
+}
+
+void	to_cero(int* arr, int size)
+{
+	for (int i = 0; i < size; i++)
+		arr[i] = 0;
+}
+
+void print(int* arr, int size)
+{
+	for (int i = 0; i < size; i++)
+		printf("%i", arr[i]);
+}
+
+int	ft_min(int a, int b, int c)
+{
+	int	min = a;
+	if (b < a)
+		min = b;
+	if (c < min)
+		min = c;
+	return min;
+}
+
+void	find_square(FILE *file, t_map *map, t_elements *e, t_res *res)
+{
+	int *last = (int*)malloc(map->w * sizeof(int));
+	int *current =(int*)malloc(map->w * sizeof(int));
+	int* temp = NULL;
+	to_cero(last, map->w);
+	print(last, map->w);
+	for(int i = 0; i < map->h - 1; i++)
+	{
+		printf("aqui");
+		for (int j = 0; i < map->w - 1; j++)
+		{
+			if (map->grid[i][j] == e->o)
+				current[j] = 0;
+			else
+			{
+				if (j == 0 || i == 0)
+					current[j] = 1;
+				else
+					current[j] = 1 + ft_min(last[j], current[j-1], last[j-1]);
+			}
+			if (current[j] > res->size)
+			{
+				res->size = current[j];
+				res->i = i - current[j] + 1;
+				res->j = j - current[j] + 1;
+			}
+		}
+		printf("aqui");
+		temp = last;
+		last = current;
+		current = temp;
+		printf("o aqui");
+	}
+	free(last);
+	free(current);
+
+}
 
 int	resolution_map(FILE* file, t_elements* e)
 {
@@ -137,7 +191,14 @@ int	resolution_map(FILE* file, t_elements* e)
 	t_map map;
 	if (read_map(file, e, &map) != 0)
 		return -1;
+	t_res res;
+	res.i = 0;
+	res.j = 0;
+	res.size = 0;
 
+	find_square(file, &map, e, &res);
+	printf("aqui");
+	return 0;
 }
 
 
