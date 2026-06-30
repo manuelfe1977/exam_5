@@ -4,13 +4,12 @@ class set
 {
 	private:
 		searchable_bag &_data;
-	public:
 		set();
-		set(searchable_bag &b);
-		set(const set &s);
 		set &operator=(const set &s);
+		set(const set &s);
+	public:
+		set(searchable_bag &b);
 		~set();
-
 		bool has(int x) const;
 		void insert(const int &x);
 		void insert(const int *ar, int s);

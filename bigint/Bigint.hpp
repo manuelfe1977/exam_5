@@ -25,11 +25,11 @@ class Bigint
 		Bigint &operator>>=(const Bigint &shift);
 		Bigint &operator<<=(const Bigint &shift);
 		bool operator>(const Bigint &num) const;
-                bool operator<(const Bigint &num) const;
-                bool operator>=(const Bigint &num) const;
-                bool operator<=(const Bigint &num) const;
-                bool operator==(const Bigint &num) const;
-                bool operator!=(const Bigint &num) const;
+		bool operator<(const Bigint &num) const;
+		bool operator>=(const Bigint &num) const;
+		bool operator<=(const Bigint &num) const;
+		bool operator==(const Bigint &num) const;
+		bool operator!=(const Bigint &num) const;
 		const std::vector<int> &get_digits() const;
 		std::vector<int> &get_digits();
 		~Bigint();

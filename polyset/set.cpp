@@ -15,7 +15,7 @@ void set::insert(const int &x)
 
 void set::insert(const int *ar, int s)
 {
-	for(int i = 0; i < s - 1; i++)
+	for(int i = 0; i < s; i++)
 		insert(ar[i]);
 }
 
@@ -34,4 +34,6 @@ const searchable_bag &set::get_bag() const
 	return _data;
 }
 
-set::~set(){}
+set::~set(){
+
+}
