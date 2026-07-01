@@ -9,14 +9,15 @@ int	main(int argc, char** argv)
 	{
 		while (i < argc)
 		{
-			if (exec_bsq(argv[i]) == 0)
-				printf("mapa procesado");
-			printf("\n");
+			if (exec_bsq(argv[i]) == -1)
+				fprintf(stderr, "map error\n");
+			if (i < argc - 1)
+				fprintf(stdout, "\n");
 			i++;
 		}
 	}
 	else
-		if(execute_bsq(stdin) == -1)
+		if(resolution_map(stdin) == -1)
 			fprintf(stderr, "map error\n");
 	return 0;
 }

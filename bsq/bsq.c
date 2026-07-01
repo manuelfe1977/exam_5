@@ -37,7 +37,7 @@ void	free_map(t_map *map)
 
 char*	ft_substr(char* source, int s, int l)
 {
-	char *str= (char*)malloc(sizeof(char) * l +1);
+	char *str= (char*)malloc(sizeof(char) * l + 1);
 	if (!str)
 		return NULL;
 	int i = 0;
@@ -113,7 +113,6 @@ int	read_map(FILE* file, t_elements* e, t_map* map)
 			}
 			j++;
 		}
-		fputs(line,stdout);
 	}
 	free (line);
 	return 0;
@@ -141,9 +140,8 @@ int	ft_min(int a, int b, int c)
 	return min;
 }
 
-void	find_square(FILE *file, t_map *map, t_elements *e, t_res *res)
+void	find_square(t_map *map, t_elements *e, t_res *res)
 {
-	(void) file;
 	int *last = (int*)malloc(map->w * sizeof(int));
 	int *current =(int*)malloc(map->w * sizeof(int));
 	int* temp = NULL;
@@ -163,7 +161,6 @@ void	find_square(FILE *file, t_map *map, t_elements *e, t_res *res)
 				res->size = current[j];
 				res->i = i - current[j] + 1;
 				res->j = j - current[j] + 1;
-				printf("size: %i linea: %i posicion: %i\n", res->size, res->i, res->j);
 			}
 		}
 		temp = last;
@@ -172,7 +169,6 @@ void	find_square(FILE *file, t_map *map, t_elements *e, t_res *res)
 	}
 	free(last);
 	free(current);
-
 }
 
 void	print_map(t_map *map, t_elements *e, t_res *res)
@@ -183,26 +179,27 @@ void	print_map(t_map *map, t_elements *e, t_res *res)
 	int i = 0;
 	while (map->grid[i] != NULL)
 	{
-		fputs(map->grid[i], stdout); 
+		fputs(map->grid[i], stdout);
 		printf("\n");
 		i++;
 	}
 }
 
-int	resolution_map(FILE* file, t_elements* e)
+int	resolution_map(FILE* file)
 {
-	if (read_elements(file, e) != 0)
+	t_elements	e;
+
+	if (read_elements(file, &e) != 0)
 		return -1;
 	t_map map;
-	if (read_map(file, e, &map) != 0)
+	if (read_map(file, &e, &map) != 0)
 		return -1;
 	t_res res;
 	res.i = 0;
 	res.j = 0;
 	res.size = 0;
-	find_square(file, &map, e, &res);
-	printf("%i", res.size);
-	print_map(&map, e, &res);
+	find_square(&map, &e, &res);
+	print_map(&map, &e, &res);
 	free_map(&map);
 	return 0;
 }
@@ -210,24 +207,13 @@ int	resolution_map(FILE* file, t_elements* e)
 
 int	exec_bsq(char* sfile)
 {
-//	int		res;
+	int		res = 0;
 	FILE*		file;
-	t_elements	e;
-
-	printf("%s\n", sfile);
 
 	file = fopen(sfile, "r");
 	if (!file)
-	{
-		fclose(file);
 		return -1;
-	}
-	if (resolution_map(file, &e) != 0)
-	{
-		fclose(file);
-		return -1;
-	}
+	res = resolution_map(file);
 	fclose(file);
-	return 0;
-
+	return res;
 }

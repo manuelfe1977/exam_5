@@ -25,7 +25,7 @@ typedef struct s_res
 
 
 int	exec_bsq(char* file);
-int	resolution_map(FILE* file, t_elements* e);
+int	resolution_map(FILE* file);
 
 
 #endif
