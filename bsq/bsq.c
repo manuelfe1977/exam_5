@@ -183,7 +183,7 @@ void	print_map(t_map *map, t_elements *e, t_res *res)
 	while (map->grid[i] != NULL)
 	{
 		fputs(map->grid[i], stdout);
-		printf("\n");
+		fputs("\n", stdout);
 		i++;
 	}
 }
