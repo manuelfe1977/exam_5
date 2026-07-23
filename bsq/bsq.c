@@ -3,7 +3,7 @@
 
 int	read_elements(FILE* file, t_elements* e)
 {
-	int read = fscanf(file, "%d %c %c %c", &(e->l), &(e->o), &(e->e), &(e->f));
+	int read = fscanf(file, "%d %c %c %c", &(e->l), &(e->e), &(e->o), &(e->f));
 	if (read != 4)
 		return -1;
 	if (e->l <= 0)
@@ -37,7 +37,7 @@ void	free_map(t_map *map)
 
 char*	ft_substr(char* source, int s, int l)
 {
-	char *str= (char*)malloc(sizeof(char) * l + 1);
+	char *str= (char*)malloc(sizeof(char) * (l + 1));
 	if (!str)
 		return NULL;
 	int i = 0;
@@ -62,11 +62,14 @@ int	read_map(FILE* file, t_elements* e, t_map* map)
 	char *line = NULL;
 	size_t l = 0;
 	if (getline(&line, &l, file) == -1)
+	{
+		free(line);
 		return -1;
+	}
 	map->grid = (char**)calloc(sizeof(char*),  map->h + 1);
 	if (!map->grid)
 		return -1;
-        map->grid[map->h] = NULL;
+	map->grid[map->h] = NULL;
 	for (int i = 0; i < map->h; i++)
 	{
 		int read = getline(&line, &l, file);
